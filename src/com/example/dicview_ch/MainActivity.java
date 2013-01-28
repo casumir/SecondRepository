@@ -38,6 +38,7 @@ import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends Activity {
 	String TAG="DixView.MainActivity";
@@ -61,6 +62,8 @@ public class MainActivity extends Activity {
 		lv = (ListView) findViewById(R.id.wList);
 //		lv.add	
 		parse();
+		Toast.makeText(this, "소스 조금 수정", Toast.LENGTH_LONG).show();
+		Toast.makeText(this, "또 다시 수정", Toast.LENGTH_LONG).show();
 		et = (EditText)findViewById(R.id.editText1);
 		
 		dicList = (LinearLayout)findViewById(R.id.dicLayout);
