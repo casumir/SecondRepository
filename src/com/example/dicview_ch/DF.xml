@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<t-data>
+    <w-list>
+		<word>A,a</word>
+		<word>a, an</word>
+		<word>a</word>
+		<word>A</word>
+		<word>A</word>
+		<word>a^-1</word>
+		<word>a^-2</word>
+		<word>a^-3</word>
+		<word>a^-4</word>
+		<word>a^-5</word>
+		<word>a^-6</word>
+	</w-list>
+	<d-list>
+	    <entry>영한</entry>
+	    <entry>영영</entry>
+	    <entry>한영</entry>
+	    <entry>국어</entry>
+	    <entry>불한</entry>
+	    <entry>불영</entry>
+	    <entry>중한</entry>
+	    <entry>한중</entry>
+	    <entry>독한</entry>
+	    <entry>독영</entry>
+	    <entry>일한</entry>
+	    <entry>일한</entry>
+	    <entry>한일</entry>
+	    <entry>서영</entry>
+	    <entry>옥편</entry>
+	</d-list>        
+</t-data>
