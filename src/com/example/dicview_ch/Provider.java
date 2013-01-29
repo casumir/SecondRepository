@@ -79,7 +79,7 @@ public class Provider {
 			
 			String select="entry_id >="+String.valueOf(start)+" AND entry_id <"+String.valueOf(end);
 			Cursor cursor = dictionaryDB.query("content", headword, select, null, null, null, null);
-			cursor.moveToFirst();
+			if(!cursor.moveToFirst()) break; 
 			do{	
 				m_headWord.add(cursor.getString(0));
 			}while(cursor.moveToNext());			
