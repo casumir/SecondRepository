@@ -48,9 +48,10 @@ public class MainActivity extends Activity {
 	GridView grid;
 	LinearLayout dicList;
 	ArrayList<String> arGeneral = new ArrayList<String>();
-	ArrayAdapter<String> Adapter;
-	TextView[] wordArray,dicTxtArray;
+	ArrayAdapter<String> listAdapter ;
+	String[] dictString = {"영한","영영","한영","국어","불한","불영","중한","한중","독한","독영","일한","한일","서영","옥편"};
 	EditText et;
+	Provider mProvider;
 	
 	
 	/* (non-Javadoc)
@@ -124,7 +125,7 @@ public class MainActivity extends Activity {
 			public void onItemClick(AdapterView<?> parent, View view, int position,
 					long id) {
 				// TODO Auto-generated method stub
-				selDicBtn.setText(((TextView)(parent.getAdapter().getItem(position))).getText());
+				selDicBtn.setText((CharSequence) (parent.getAdapter().getItem(position)));
 				dicList.setVisibility(dicList.INVISIBLE);
 			}
 		};
@@ -147,12 +148,7 @@ public class MainActivity extends Activity {
 	} 
 	
 	public void textSizeToggle(){
-		float textSize=0;
-		textSize=wordArray[0].getTextSize();
-		textSize+=10;
-		if(textSize>40) textSize=20;
-		for(int i=0; i<wordArray.length; i++)
-			wordArray[i].setTextSize(textSize);
+		
 	}
 	
 	protected void parse() {
@@ -188,29 +184,37 @@ public class MainActivity extends Activity {
 			//Adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1 , arGeneral);*/
 			//TextViewAdapter Adapter = new TextViewAdapter(this,wordArray);
 			
-			Adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1 , arGeneral);
-			lv.setAdapter(Adapter);		
+			mProvider = Provider.getInstance();
+			for(String str : mProvider.getM_headWord()){
+				arGeneral.add(str);
+			}
+			listAdapter = new ArrayAdapter<String>(this, R.layout.listitemnormal , arGeneral);
+			lv.setAdapter(listAdapter);		
 
-			dicTxtArray=new TextView[dList.getLength()];
-			for(int i=0;i<dList.getLength();i++){
-				Element name = (Element)dList.item(i);
-				
-				Text text = (Text)name.getFirstChild();
-				dicTxtArray[i]=new TextView(this);
-				dicTxtArray[i].setTextSize(25);
-				dicTxtArray[i].setGravity(0x11);
-				dicTxtArray[i].setText((CharSequence)text.getData());				
-				Log.d(TAG,(String) dicTxtArray[i].getText());
-				//System.out.println(text.getData());				
-			}	
-			TextViewAdapter ba = new TextViewAdapter(this,dicTxtArray);
+//			dicTxtArray=new TextView[dList.getLength()];
+//			for(int i=0;i<dList.getLength();i++){
+//				Element name = (Element)dList.item(i);
+//				
+//				Text text = (Text)name.getFirstChild();
+//				dicTxtArray[i]=new TextView(this);
+//				dicTxtArray[i].setTextSize(25);
+//				dicTxtArray[i].setGravity(0x11);
+//				dicTxtArray[i].setText((CharSequence)text.getData());				
+//				Log.d(TAG,(String) dicTxtArray[i].getText());
+//				//System.out.println(text.getData());				
+//			}
+			
+			ArrayList<String> dicList=new ArrayList<String>();
+			for(int i =0; i<dictString.length; i++){
+				dicList.add(dictString[i]);
+			}
+			ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1 ,dicList);
 			grid = (GridView)findViewById(R.id.dGridList);
-			grid.setAdapter(ba);
+			grid.setAdapter(adapter);
 			
 //		}catch(Exception e){
 //			e.printStackTrace();
-//			Log.d(TAG,"error occurred while constructing ListView");
-//		
+//			Log.d(TAG,"error occurred while constructing ListView");//		
 //		}
 	}
 	
@@ -246,9 +250,6 @@ public class MainActivity extends Activity {
 			TextView text;
 			text =(TextView)getItem(position);			
 			return text;
-		}
-		
+		}		
 	}
 }
-	
-

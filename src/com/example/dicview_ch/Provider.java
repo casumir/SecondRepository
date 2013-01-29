@@ -14,6 +14,10 @@ public class Provider {
 	private SQLiteDatabase dictionaryDB;		//사전 디비
 	//private SQLiteDatabase etcDB;				//암기장디비
 	private int entrySize;							//헤드워크 갯수
+	public ArrayList<String> getM_headWord() {
+		return m_headWord;
+	}
+
 	private String textSize;							//텍스트 크기가 스트링 (small normal large)
 	private String viewMode;						//추정 사전을 보여주는 모드 헤드워드와 컨텐트 보여주는 모드
 	//private String studyMode;					//암기장 보여주는 모드
@@ -25,7 +29,7 @@ public class Provider {
 	//private String lastSound;						//이전에 재생됐던 놈.
 	
 	private String dbPath;							//db의 패쓰
-	private Provider INSTANCE;					//singleton 패턴 적용을 위한 인스턴스
+	private static Provider INSTANCE;					//singleton 패턴 적용을 위한 인스턴스
 	
 	//생성자
 	private Provider()
@@ -45,39 +49,48 @@ public class Provider {
 			/*if(dictionaryFile == null) {
 				dictionaryFile = getContext().getDatabasePath("dictionary.db");
 			}*/
-			try {
-				dictionaryDB = SQLiteDatabase.openDatabase(dictionaryFile.getPath(), null, 
-						SQLiteDatabase.OPEN_READONLY | SQLiteDatabase.NO_LOCALIZED_COLLATORS);
-			} catch (Exception e) {
-				
-			}
-			if(dictionaryDB == null) {
-				
-			}
-
-			Cursor cursor = dictionaryDB.query("meta_data", null, null, null, null, null, null);
-			cursor.moveToFirst();
-			entrySize = cursor.getInt(cursor.getColumnIndex("entry_size"));
-			String sounds = cursor.getString(cursor.getColumnIndex("sounds"));
-		 
-			cursor.close();
+//			try {
+//				dictionaryDB = SQLiteDatabase.openDatabase(dictionaryFile.getPath(), null, 
+//						SQLiteDatabase.OPEN_READONLY | SQLiteDatabase.NO_LOCALIZED_COLLATORS);
+//			} catch (Exception e) {
+//				
+//			}
+//			if(dictionaryDB == null) {
+//				
+//			}
+//
+//			Cursor cursor = dictionaryDB.query("meta_data", null, null, null, null, null, null);
+//			cursor.moveToFirst();
+//			entrySize = cursor.getInt(cursor.getColumnIndex("entry_size"));
+//			String sounds = cursor.getString(cursor.getColumnIndex("sounds"));
+//		 
+//			cursor.close();
 		}catch(Exception e){	
 		
 		}
 		String [] headword = {"headword"};
-		Cursor cursor = dictionaryDB.query("content", headword, null, null, null, null, null);
 		m_headWord = new ArrayList<String>();
 		
-		cursor.moveToFirst();
-		for(int i=0; i< entrySize ; i++)
-		{	
-			m_headWord.add(cursor.getString(i));
-			cursor.moveToNext();
+		int start=0, end=100;
+		entrySize=50000;
+		while(true){
+			
+			String select="entry_id >="+String.valueOf(start)+" AND entry_id <"+String.valueOf(end);
+			Cursor cursor = dictionaryDB.query("content", headword, select, null, null, null, null);
+			
+			cursor.moveToFirst();
+			do{	
+				m_headWord.add(cursor.getString(0));
+			}while(cursor.moveToNext());			
+			
+			cursor.close();
+			start=end;
+			end +=100;
+			if(end>1000) break;			
 		}
-		cursor.close();
 	}
 	
-	public Provider getInstance() {
+	static public Provider getInstance() {
 		if(INSTANCE == null) {
 			INSTANCE = new Provider();
 		}else {
