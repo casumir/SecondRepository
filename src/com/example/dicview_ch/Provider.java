@@ -80,6 +80,9 @@ public class Provider {
 	public Provider getInstance() {
 		if(INSTANCE == null) {
 			INSTANCE = new Provider();
+		}else {
+			Log.e("Provider","Provider Instance already obtained by one of other instances. It should be obtained only one in an application");
+			System.exit(0);
 		}
 		return INSTANCE;
 	}
