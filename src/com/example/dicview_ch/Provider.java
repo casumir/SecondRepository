@@ -3,6 +3,8 @@ package com.example.dicview_ch;
 import java.io.File;
 import java.util.ArrayList;
 
+//import com.unichal.tutorial.designpattern.Singleton;
+
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
@@ -23,9 +25,10 @@ public class Provider {
 	//private String lastSound;						//이전에 재생됐던 놈.
 	
 	private String dbPath;							//db의 패쓰
+	private Provider INSTANCE;					//singleton 패턴 적용을 위한 인스턴스
 	
 	//생성자
-	public Provider()
+	private Provider()
 	{
 		dbPath = "/sdcard/imgtest/dictionary.db";
 		
@@ -72,5 +75,12 @@ public class Provider {
 			cursor.moveToNext();
 		}
 		cursor.close();
+	}
+	
+	public Provider getInstance() {
+		if(INSTANCE == null) {
+			INSTANCE = new Provider();
+		}
+		return INSTANCE;
 	}
 }
