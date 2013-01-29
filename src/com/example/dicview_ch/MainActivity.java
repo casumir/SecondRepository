@@ -6,6 +6,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -48,11 +49,12 @@ public class MainActivity extends Activity {
 	GridView grid;
 	LinearLayout dicList;
 	ArrayList<String> arGeneral = new ArrayList<String>();
-	ArrayAdapter<String> listAdapter ;
+	MArrayAdapter listAdapter ;
 	String[] dictString = {"영한","영영","한영","국어","불한","불영","중한","한중","독한","독영","일한","한일","서영","옥편"};
 	EditText et;
 	Provider mProvider;
-	
+
+	private float mTextSize=20f;
 	
 	/* (non-Javadoc)
 	 * @see android.app.Activity#onCreate(android.os.Bundle)
@@ -76,7 +78,7 @@ public class MainActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				if(dicList.getVisibility()==dicList.INVISIBLE){
-					dicList.setVisibility(dicList.VISIBLE);		
+					dicList.setVisibility(dicList.VISIBLE);					
 				}else{
 					dicList.setVisibility(dicList.INVISIBLE);
 				}
@@ -148,75 +150,46 @@ public class MainActivity extends Activity {
 	} 
 	
 	public void textSizeToggle(){
+
+		mTextSize += 5f;
+		if(mTextSize>30) mTextSize =15;
 		
+		listAdapter.notifyDataSetChanged();
 	}
 	
 	protected void parse() {
-		// DOM�뚯꽌瑜��쎌뼱二쇰뒗 媛앹껜 �좎뼵
-		/*DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-		try{
-			//dom臾몄꽌瑜��쎄퀬 �댁꽍 �뚯떛�댁＜��媛앹껜 �좎뼵
-			DocumentBuilder parse = factory.newDocumentBuilder();
-			
-			File file = new File("/sdcard/imgtest/DF.xml");
-			InputStream in = new FileInputStream(file);
-			//xml臾몄꽌 �뚯떛
-			Document doc = parse.parse(in);
-			// 猷⑦듃�섎━癒쇳듃 異붿텧
-			Element element = doc.getDocumentElement();
-			
-			// �섎━癒쇳듃�먯꽌 entry�쇰뒗 �댁엫�쒓렇瑜�湲곗��쇰줈���몃뱶由ъ뒪��異붿텧
-			NodeList nlist = element.getElementsByTagName("word");
-			NodeList dList = element.getElementsByTagName("entry");
-			
-			wordArray=new TextView[nlist.getLength()];
-			for(int i=0;i<nlist.getLength();i++){
-				Element name = (Element)nlist.item(i);
-				
-				// �섎━癒쇳듃���붿냼瑜�異붿텧 NodeList���꾩씠�쒖쓽 i踰덉㎏ �ㅻ툕�앺듃瑜�異붿텧
-				Text text = (Text)name.getFirstChild();
-				//arGeneral.add(text.getData());
-				wordArray[i]=new TextView(this);
-				wordArray[i].setTextSize(20);
-				wordArray[i].setText((CharSequence)text.getData());
-				//Log.d(TAG,arGeneral.get(i));			
-			}	
-			//Adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1 , arGeneral);*/
-			//TextViewAdapter Adapter = new TextViewAdapter(this,wordArray);
-			
 			mProvider = Provider.getInstance();
 			for(String str : mProvider.getM_headWord()){
 				arGeneral.add(str);
 			}
 			Log.d(TAG,"asGenera size :"+arGeneral.size());
-			listAdapter = new ArrayAdapter<String>(this, R.layout.listitemnormal , arGeneral);
+			listAdapter = new MArrayAdapter(this, R.layout.listitemnormal , arGeneral);
 			mListView.setAdapter(listAdapter);		
-
-//			dicTxtArray=new TextView[dList.getLength()];
-//			for(int i=0;i<dList.getLength();i++){
-//				Element name = (Element)dList.item(i);
-//				
-//				Text text = (Text)name.getFirstChild();
-//				dicTxtArray[i]=new TextView(this);
-//				dicTxtArray[i].setTextSize(25);
-//				dicTxtArray[i].setGravity(0x11);
-//				dicTxtArray[i].setText((CharSequence)text.getData());				
-//				Log.d(TAG,(String) dicTxtArray[i].getText());
-//				//System.out.println(text.getData());				
-//			}
 			
 			ArrayList<String> dicList=new ArrayList<String>();
 			for(int i =0; i<dictString.length; i++){
 				dicList.add(dictString[i]);
 			}
-			ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.listitemnormal ,dicList);
+			MArrayAdapter adapter = new MArrayAdapter(this, R.layout.listitemcenter ,dicList);
 			grid = (GridView)findViewById(R.id.dGridList);
+			
 			grid.setAdapter(adapter);
 			
-//		}catch(Exception e){
-//			e.printStackTrace();
-//			Log.d(TAG,"error occurred while constructing ListView");//		
-//		}
+	}
+	
+	class MArrayAdapter extends ArrayAdapter<String>{
+
+		public MArrayAdapter(Context context, int textViewResourceId,
+				List<String> objects) {
+			super(context, textViewResourceId, objects);
+		}
+		
+		@Override
+		public View getView(int position, View convertView, ViewGroup parent) {
+			TextView text = (TextView)super.getView(position, convertView, parent);
+			text.setTextSize(mTextSize);
+			return text;
+		}
 	}
 	
 	class TextViewAdapter extends BaseAdapter{
@@ -248,9 +221,9 @@ public class MainActivity extends Activity {
 
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
-			TextView text;
-			text =(TextView)getItem(position);			
-			return text;
+			
+						
+			return (View)getItem(position);
 		}		
 	}
 }
