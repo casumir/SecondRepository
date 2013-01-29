@@ -125,7 +125,7 @@ public class MainActivity extends Activity {
 			public void onItemClick(AdapterView<?> parent, View view, int position,
 					long id) {
 				// TODO Auto-generated method stub
-				//selDicBtn.setText(dicList[(parent.getAdapter().getItem(position)]);
+				selDicBtn.setText(dictString[position]);
 				dicList.setVisibility(dicList.INVISIBLE);
 			}
 		};
@@ -209,7 +209,7 @@ public class MainActivity extends Activity {
 			for(int i =0; i<dictString.length; i++){
 				dicList.add(dictString[i]);
 			}
-			ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1 ,dicList);
+			ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.listitemnormal ,dicList);
 			grid = (GridView)findViewById(R.id.dGridList);
 			grid.setAdapter(adapter);
 			

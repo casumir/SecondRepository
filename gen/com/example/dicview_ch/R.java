@@ -15,22 +15,20 @@ public final class R {
         public static final int triangle=0x7f020001;
     }
     public static final class id {
-        public static final int btn1=0x7f060007;
-        public static final int btn2=0x7f060008;
-        public static final int dGridList=0x7f060005;
-        public static final int dicLayout=0x7f060004;
-        public static final int editText1=0x7f060002;
-        public static final int fold=0x7f060006;
-        public static final int selDicBtn=0x7f060001;
-        public static final int textliststyle=0x7f060000;
-        public static final int wList=0x7f060003;
+        public static final int btn1=0x7f060006;
+        public static final int btn2=0x7f060007;
+        public static final int dGridList=0x7f060004;
+        public static final int dicLayout=0x7f060003;
+        public static final int editText1=0x7f060001;
+        public static final int fold=0x7f060005;
+        public static final int selDicBtn=0x7f060000;
+        public static final int wList=0x7f060002;
     }
     public static final class layout {
-        public static final int icontext=0x7f030000;
-        public static final int listitembig=0x7f030001;
-        public static final int listitemnormal=0x7f030002;
-        public static final int listitemsmall=0x7f030003;
-        public static final int main=0x7f030004;
+        public static final int listitembig=0x7f030000;
+        public static final int listitemnormal=0x7f030001;
+        public static final int listitemsmall=0x7f030002;
+        public static final int main=0x7f030003;
     }
     public static final class string {
         public static final int app_name=0x7f040000;
