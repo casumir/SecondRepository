@@ -11,6 +11,7 @@ import android.util.Log;
 
 public class Provider {
 	
+	private static final String TAG = "Provider";
 	private SQLiteDatabase dictionaryDB;		//사전 디비
 	//private SQLiteDatabase etcDB;				//암기장디비
 	private int entrySize;							//헤드워크 갯수
@@ -44,17 +45,18 @@ public class Provider {
 				if(!dictionaryFile.exists()) {
 					dictionaryFile = null;
 					Log.d("Provider", "Dictionary files not exist");
-				}
+				}else
+					Log.d(TAG,"file exist");
 			}
 			/*if(dictionaryFile == null) {
 				dictionaryFile = getContext().getDatabasePath("dictionary.db");
 			}*/
-//			try {
-//				dictionaryDB = SQLiteDatabase.openDatabase(dictionaryFile.getPath(), null, 
-//						SQLiteDatabase.OPEN_READONLY | SQLiteDatabase.NO_LOCALIZED_COLLATORS);
-//			} catch (Exception e) {
-//				
-//			}
+			try {
+				dictionaryDB = SQLiteDatabase.openDatabase(dictionaryFile.getPath(), null, 
+						SQLiteDatabase.OPEN_READONLY | SQLiteDatabase.NO_LOCALIZED_COLLATORS);
+			} catch (Exception e) {
+				
+			}
 //			if(dictionaryDB == null) {
 //				
 //			}
@@ -71,22 +73,24 @@ public class Provider {
 		String [] headword = {"headword"};
 		m_headWord = new ArrayList<String>();
 		
-		int start=0, end=100;
-		entrySize=50000;
+		int start=0, end=1000;
+		
 		while(true){
 			
 			String select="entry_id >="+String.valueOf(start)+" AND entry_id <"+String.valueOf(end);
 			Cursor cursor = dictionaryDB.query("content", headword, select, null, null, null, null);
-			
 			cursor.moveToFirst();
 			do{	
 				m_headWord.add(cursor.getString(0));
 			}while(cursor.moveToNext());			
 			
+			if(cursor.getCount()<1000) {
+				cursor.close();
+				break;
+			}
 			cursor.close();
 			start=end;
-			end +=100;
-			if(end>1000) break;			
+			end +=1000;						
 		}
 	}
 	

@@ -44,7 +44,7 @@ public class MainActivity extends Activity {
 	String TAG="DixView.MainActivity";
 	Button selDicBtn, btn1, btn2;
 	ImageButton foldBtn;
-	ListView lv;
+	ListView mListView;
 	GridView grid;
 	LinearLayout dicList;
 	ArrayList<String> arGeneral = new ArrayList<String>();
@@ -60,9 +60,9 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
-		lv = (ListView) findViewById(R.id.wList);
+		mListView = (ListView) findViewById(R.id.wList);
 
-//		lv.add	
+//		mListView.add	
 		parse();
 		et = (EditText)findViewById(R.id.editText1);
 		
@@ -117,15 +117,15 @@ public class MainActivity extends Activity {
 			}
 			
 		};		
-		
-		lv.setOnItemClickListener(mItemClickListener);		
+		mListView.setFastScrollEnabled(true);
+		mListView.setOnItemClickListener(mItemClickListener);		
 		AdapterView.OnItemClickListener mItemClickListener2 = new AdapterView.OnItemClickListener(){
 
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position,
 					long id) {
 				// TODO Auto-generated method stub
-				selDicBtn.setText((CharSequence) (parent.getAdapter().getItem(position)));
+				//selDicBtn.setText(dicList[(parent.getAdapter().getItem(position)]);
 				dicList.setVisibility(dicList.INVISIBLE);
 			}
 		};
@@ -188,8 +188,9 @@ public class MainActivity extends Activity {
 			for(String str : mProvider.getM_headWord()){
 				arGeneral.add(str);
 			}
+			Log.d(TAG,"asGenera size :"+arGeneral.size());
 			listAdapter = new ArrayAdapter<String>(this, R.layout.listitemnormal , arGeneral);
-			lv.setAdapter(listAdapter);		
+			mListView.setAdapter(listAdapter);		
 
 //			dicTxtArray=new TextView[dList.getLength()];
 //			for(int i=0;i<dList.getLength();i++){
