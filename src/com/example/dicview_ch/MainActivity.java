@@ -60,10 +60,9 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
 		lv = (ListView) findViewById(R.id.wList);
+
 //		lv.add	
 		parse();
-		Toast.makeText(this, "소스 조금 수정", Toast.LENGTH_LONG).show();
-		Toast.makeText(this, "또 다시 수정", Toast.LENGTH_LONG).show();
 		et = (EditText)findViewById(R.id.editText1);
 		
 		dicList = (LinearLayout)findViewById(R.id.dicLayout);
@@ -158,7 +157,7 @@ public class MainActivity extends Activity {
 	
 	protected void parse() {
 		// DOM�뚯꽌瑜��쎌뼱二쇰뒗 媛앹껜 �좎뼵
-		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+		/*DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		try{
 			//dom臾몄꽌瑜��쎄퀬 �댁꽍 �뚯떛�댁＜��媛앹껜 �좎뼵
 			DocumentBuilder parse = factory.newDocumentBuilder();
@@ -186,9 +185,10 @@ public class MainActivity extends Activity {
 				wordArray[i].setText((CharSequence)text.getData());
 				//Log.d(TAG,arGeneral.get(i));			
 			}	
-			//Adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1 , arGeneral);
-			TextViewAdapter Adapter = new TextViewAdapter(this,wordArray);
+			//Adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1 , arGeneral);*/
+			//TextViewAdapter Adapter = new TextViewAdapter(this,wordArray);
 			
+			Adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1 , arGeneral);
 			lv.setAdapter(Adapter);		
 
 			dicTxtArray=new TextView[dList.getLength()];
@@ -207,11 +207,11 @@ public class MainActivity extends Activity {
 			grid = (GridView)findViewById(R.id.dGridList);
 			grid.setAdapter(ba);
 			
-		}catch(Exception e){
-			e.printStackTrace();
-			Log.d(TAG,"error occurred while constructing ListView");
-		
-		}
+//		}catch(Exception e){
+//			e.printStackTrace();
+//			Log.d(TAG,"error occurred while constructing ListView");
+//		
+//		}
 	}
 	
 	class TextViewAdapter extends BaseAdapter{
