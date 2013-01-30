@@ -23,6 +23,7 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager.LayoutParams;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
@@ -121,6 +122,14 @@ public class MainActivity extends Activity {
 		};		
 		mListView.setFastScrollEnabled(true);
 		mListView.setOnItemClickListener(mItemClickListener);		
+		mListView.setOnTouchListener(new View.OnTouchListener() {   
+			@Override
+			public boolean onTouch(View arg0, MotionEvent arg1) {
+				InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+			    imm.hideSoftInputFromWindow(et.getApplicationWindowToken(),0 ); 
+			    return false;
+			}
+		});
 		AdapterView.OnItemClickListener mItemClickListener2 = new AdapterView.OnItemClickListener(){
 
 			@Override
@@ -159,7 +168,7 @@ public class MainActivity extends Activity {
 	
 	protected void parse() {
 			mProvider = Provider.getInstance();
-			for(String str : mProvider.getM_headWord()){
+			for(String str : mProvider.getM_headword()){
 				arGeneral.add(str);
 			}
 			Log.d(TAG,"asGenera size :"+arGeneral.size());
@@ -179,15 +188,27 @@ public class MainActivity extends Activity {
 	
 	class MArrayAdapter extends ArrayAdapter<String>{
 
+		private int getViewCount = 0;
+		
+
+		@Override
+		public int getCount() {
+			int count = super.getCount();
+			Log.i("getCoutn"," : "+count);
+			return count;
+		}
+
 		public MArrayAdapter(Context context, int textViewResourceId,
 				List<String> objects) {
-			super(context, textViewResourceId, objects);
+			super(context, textViewResourceId, objects);			
 		}
 		
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
 			TextView text = (TextView)super.getView(position, convertView, parent);
 			text.setTextSize(mTextSize);
+			getViewCount++;
+			//Log.i(parent.toString(),"count : " + getViewCount);
 			return text;
 		}
 	}
@@ -221,8 +242,7 @@ public class MainActivity extends Activity {
 
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
-			
-						
+								
 			return (View)getItem(position);
 		}		
 	}
