@@ -67,7 +67,6 @@ public class Provider {
 		String[] selectionArgs = null;
 		Cursor cursor = dictionaryDB.rawQuery(sql, selectionArgs);
 		entrySize=cursor.getInt(0);
-		String [] headword = {"headword"};
 		cursor.close();
 //		m_headword = new ArrayList<String>();
 //		
