@@ -50,7 +50,7 @@ public class MainActivity extends Activity {
 	GridView grid;
 	LinearLayout dicList;
 	ArrayList<String> arGeneral = new ArrayList<String>();
-	MArrayAdapter listAdapter ;
+	MyListViewAdapter listAdapter ;
 	String[] dictString = {"영한","영영","한영","국어","불한","불영","중한","한중","독한","독영","일한","한일","서영","옥편"};
 	EditText et;
 	Provider mProvider;
@@ -173,9 +173,12 @@ public class MainActivity extends Activity {
 				arGeneral.add(str);
 			}*/
 			//Log.d(TAG,"asGenera size :"+arGeneral.size());
-			listAdapter = new MArrayAdapter(this, R.layout.listitemnormal , arGeneral);
+			Log.d(TAG,"리스트탭터 생성");
+			listAdapter = new MyListViewAdapter(this, R.layout.listitemnormal );
+			Log.d(TAG,"리스트어탭터 생성완료");
+			Log.d(TAG,"리스트어탭터 리스트에 붙임");
 			mListView.setAdapter(listAdapter);		
-			
+			Log.d(TAG,"리스트어탭터 리스트에 붙임 완료");
 			ArrayList<String> dicList=new ArrayList<String>();
 			for(int i =0; i<dictString.length; i++){
 				dicList.add(dictString[i]);
