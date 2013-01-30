@@ -174,7 +174,7 @@ public class MainActivity extends Activity {
 			}*/
 			//Log.d(TAG,"asGenera size :"+arGeneral.size());
 			Log.d(TAG,"리스트탭터 생성");
-			listAdapter = new MyListViewAdapter(this, R.layout.listitemnormal );
+			listAdapter = new MyListViewAdapter();
 			Log.d(TAG,"리스트어탭터 생성완료");
 			Log.d(TAG,"리스트어탭터 리스트에 붙임");
 			mListView.setAdapter(listAdapter);		
@@ -210,34 +210,43 @@ public class MainActivity extends Activity {
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
 			TextView text = (TextView)super.getView(position, convertView, parent);
-			text.setTextSize(mTextSize);
+			//text.setTextSize(mTextSize);
 			getViewCount++;
 			//Log.i(parent.toString(),"count : " + getViewCount);
 			return text;
 		}
 	}
-	class MyListViewAdapter extends ArrayAdapter<String>{
+	
+	class MyListViewAdapter extends BaseAdapter{
 		
-		
-		
-
 		@Override
 		public int getCount() {
 			if(m_chinaDictionaryEntrySize ==0)
 				m_chinaDictionaryEntrySize = mProvider.getSize();			
 			return m_chinaDictionaryEntrySize ;
 		}
-
-		public MyListViewAdapter(Context context, int textViewResourceId) {
-			super(context, textViewResourceId);			
-		}
-		
+				
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
-			TextView text = (TextView)super.getView(position, convertView, parent);
+			TextView text = (TextView) convertView;
+			if(text == null){
+				text = new TextView(MainActivity.this , null, R.layout.listitemnormal);
+			}
 			text.setTextSize(mTextSize);
 			text.setText(mProvider.getHeadword(position));
+			
 			return text;
+		}
+
+		@Override
+		public Object getItem(int arg0) {
+			return null;
+		}
+
+
+		@Override
+		public long getItemId(int position) {
+			return position;
 		}
 	}
 

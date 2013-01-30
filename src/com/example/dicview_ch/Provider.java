@@ -123,7 +123,6 @@ public class Provider {
 	
 	public String getHeadword(int position){
 		String text=null;
-		Log.i(TAG," call loadMapIfNeeded("+position+")");
 		loadMapIfNeeded(position);
 		text = headwordMap.get(position);
 		return text;
