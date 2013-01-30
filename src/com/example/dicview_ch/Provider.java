@@ -2,11 +2,13 @@ package com.example.dicview_ch;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 //import com.unichal.tutorial.designpattern.Singleton;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.util.Log;
 
 public class Provider {
@@ -15,10 +17,8 @@ public class Provider {
 	private SQLiteDatabase dictionaryDB;		//사전 디비
 	//private SQLiteDatabase etcDB;				//암기장디비
 	private int entrySize;							//헤드워크 갯수
-	public ArrayList<String> getM_headword() {
-		return m_headword;
-	}
-
+	private HashMap<Integer, String> headwordMap; // <position==id, headword>
+	
 	private String textSize;							//텍스트 크기가 스트링 (small normal large)
 	private String viewMode;						//추정 사전을 보여주는 모드 헤드워드와 컨텐트 보여주는 모드
 	//private String studyMode;					//암기장 보여주는 모드
@@ -58,41 +58,38 @@ public class Provider {
 			} catch (Exception e) {
 				
 			}
-//			if(dictionaryDB == null) {
-//				
-//			}
-//
-//			Cursor cursor = dictionaryDB.query("meta_data", null, null, null, null, null, null);
-//			cursor.moveToFirst();
-//			entrySize = cursor.getInt(cursor.getColumnIndex("entry_size"));
-//			String sounds = cursor.getString(cursor.getColumnIndex("sounds"));
-//		 
-//			cursor.close();
 		}catch(Exception e){	
 		
 		}
+	
+		
+		String sql = "selet count(*) from content";
+		String[] selectionArgs = null;
+		Cursor cursor = dictionaryDB.rawQuery(sql, selectionArgs);
+		entrySize=cursor.getInt(0);
 		String [] headword = {"headword"};
-		m_headword = new ArrayList<String>();
-		
-		int start=0, end=1000;
-		
-		while(true){
-			
-			String select="entry_id >="+String.valueOf(start)+" AND entry_id <"+String.valueOf(end);
-			Cursor cursor = dictionaryDB.query("content", headword, select, null, null, null, null);
-			if(!cursor.moveToFirst()) break; 
-			do{	
-				m_headword.add(cursor.getString(0));
-			}while(cursor.moveToNext());			
-			
-			if(cursor.getCount()<1000) {
-				cursor.close();
-				break;
-			}
-			cursor.close();
-			start=end;
-			end +=1000;						
-		}
+		cursor.close();
+//		m_headword = new ArrayList<String>();
+//		
+//		int start=0, end=1000;
+//		
+//		while(true){
+//			
+//			String select="entry_id >="+String.valueOf(start)+" AND entry_id <"+String.valueOf(end);
+//			Cursor cursor = dictionaryDB.query("content", headword, select, null, null, null, null);
+//			if(!cursor.moveToFirst()) break; 
+//			do{	
+//				m_headword.add(cursor.getString(0));
+//			}while(cursor.moveToNext());			
+//			
+//			if(cursor.getCount()<1000) {
+//				cursor.close();
+//				break;
+//			}
+//			cursor.close();
+//			start=end;
+//			end +=1000;						
+//		}
 	}
 	
 	static public Provider getInstance() {
@@ -116,5 +113,29 @@ public class Provider {
 			entry_id=cursor.getInt(0);
 		}
 		return entry_id;
+	}
+	
+	public int getSize(){		
+		return entrySize;
+	}
+	
+	public String getHeadword(int position){
+		String text=null;
+		loadMapIfNeeded(position);
+		text = headwordMap.get(position);
+		return text;
+	}
+	
+	private void loadMapIfNeeded(int position) {
+		if(!(headwordMap).containsKey(position)) {
+			//headwordMap.clear();
+			String[] columns={"headword"};
+			String selection="entry_id="+String.valueOf(position);
+			Cursor cursor = dictionaryDB.query("content", columns, selection, null, null, null, null);
+			if(cursor.moveToFirst()) {
+				headwordMap.put( position , cursor.getString(0));				
+			}
+			cursor.close();
+		}
 	}
 }
