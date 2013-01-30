@@ -63,10 +63,11 @@ public class Provider {
 		}
 	
 		
-		String sql = "selet count(*) from content";
+		String sql = "select count(*) from content";
 		String[] selectionArgs = null;
 		Cursor cursor = dictionaryDB.rawQuery(sql, selectionArgs);
-		entrySize=cursor.getInt(0);
+		if(cursor.moveToFirst())
+			entrySize=cursor.getInt(0);
 		cursor.close();
 //		m_headword = new ArrayList<String>();
 //		
