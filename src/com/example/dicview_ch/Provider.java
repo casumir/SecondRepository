@@ -61,6 +61,8 @@ public class Provider {
 		}catch(Exception e){	
 		
 		}
+		
+		headwordMap = new HashMap<Integer, String>();
 	
 		
 		String sql = "select count(*) from content";
@@ -121,6 +123,7 @@ public class Provider {
 	
 	public String getHeadword(int position){
 		String text=null;
+		Log.i(TAG," call loadMapIfNeeded("+position+")");
 		loadMapIfNeeded(position);
 		text = headwordMap.get(position);
 		return text;
