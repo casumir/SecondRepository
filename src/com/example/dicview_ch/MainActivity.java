@@ -54,6 +54,7 @@ public class MainActivity extends Activity {
 	String[] dictString = {"영한","영영","한영","국어","불한","불영","중한","한중","독한","독영","일한","한일","서영","옥편"};
 	EditText et;
 	Provider mProvider;
+	int m_chinaDictionaryEntrySize = 0;
 
 	private float mTextSize=20f;
 	
@@ -168,10 +169,10 @@ public class MainActivity extends Activity {
 	
 	protected void parse() {
 			mProvider = Provider.getInstance();
-			for(String str : mProvider.getM_headword()){
+			/*for(String str : mProvider.getM_headword()){
 				arGeneral.add(str);
-			}
-			Log.d(TAG,"asGenera size :"+arGeneral.size());
+			}*/
+			//Log.d(TAG,"asGenera size :"+arGeneral.size());
 			listAdapter = new MArrayAdapter(this, R.layout.listitemnormal , arGeneral);
 			mListView.setAdapter(listAdapter);		
 			
@@ -186,7 +187,7 @@ public class MainActivity extends Activity {
 			
 	}
 	
-	class MArrayAdapter extends ArrayAdapter<String>{
+	class MArrayAdapter extends ArrayAdapter<String>{//for grid view
 		
 		private int getViewCount = 0;
 		
@@ -197,11 +198,11 @@ public class MainActivity extends Activity {
 			Log.i("getCoutn"," : "+count);
 			return count;
 		}
-//
-//		public MArrayAdapter(Context context, int textViewResourceId,
-//				List<String> objects) {
-//			super(context, textViewResourceId, objects);			
-//		}
+
+		public MArrayAdapter(Context context, int textViewResourceId,
+				List<String> objects) {
+			super(context, textViewResourceId, objects);			
+		}
 		
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
@@ -212,6 +213,32 @@ public class MainActivity extends Activity {
 			return text;
 		}
 	}
+	class MyListViewAdapter extends ArrayAdapter<String>{
+		
+		
+		
+
+		@Override
+		public int getCount() {
+			if(m_chinaDictionaryEntrySize ==0)
+				m_chinaDictionaryEntrySize = mProvider.getSize();			
+			return m_chinaDictionaryEntrySize ;
+		}
+
+		public MyListViewAdapter(Context context, int textViewResourceId) {
+			super(context, textViewResourceId);			
+		}
+		
+		@Override
+		public View getView(int position, View convertView, ViewGroup parent) {
+			TextView text = (TextView)super.getView(position, convertView, parent);
+			text.setTextSize(mTextSize);
+			text.setText(mProvider.getHeadword(position));
+			return text;
+		}
+	}
+
+	
 	
 	class TextViewAdapter extends BaseAdapter{
 		private Context mContext;
