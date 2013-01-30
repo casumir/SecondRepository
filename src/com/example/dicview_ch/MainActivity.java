@@ -187,7 +187,7 @@ public class MainActivity extends Activity {
 	}
 	
 	class MArrayAdapter extends ArrayAdapter<String>{
-
+		
 		private int getViewCount = 0;
 		
 
@@ -197,11 +197,11 @@ public class MainActivity extends Activity {
 			Log.i("getCoutn"," : "+count);
 			return count;
 		}
-
-		public MArrayAdapter(Context context, int textViewResourceId,
-				List<String> objects) {
-			super(context, textViewResourceId, objects);			
-		}
+//
+//		public MArrayAdapter(Context context, int textViewResourceId,
+//				List<String> objects) {
+//			super(context, textViewResourceId, objects);			
+//		}
 		
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
