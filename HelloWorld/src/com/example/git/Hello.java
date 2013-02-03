@@ -13,6 +13,10 @@ public class Hello {
 		{
 			System.out.println("Hello world");
 		}
+		System.out.println("Hello World");
+		//이건 뭐다냐 ...
+
+
 	}
 
 }
